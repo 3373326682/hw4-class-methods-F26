@@ -1,8 +1,8 @@
 /**
  * # Part 2) House
  * You should complete this file AFTER person.ts!
- * 
- * 
+ *
+ *
  * 2.1. Create a class named `House` that has two public string fields: `owner` (Person) and `address` (string).
  *      Note that you need to `import` the Person class:
  *              import { Person } from "./person";
@@ -13,12 +13,50 @@
  *      There should not be curly braces in the string, but the owner's full name should be the result of
  *      calling the `getFullName` method.
  * 2.4. Create a House method named `buyFrom` that takes in one `Person` parameter (person) and returns a string.
- *      If the person is under 18, then the method should return the string 
- *          "Sorry, {buyer's full name} is too young to buy a house!" 
+ *      If the person is under 18, then the method should return the string
+ *          "Sorry, {buyer's full name} is too young to buy a house!"
  *      and NOT change the owner. Otherwise it SHOULD change the owner and return
  *          "{buyer's full name} bought the house!"
  * 2.5. Create a House method named `clone` that returns a new House object with the same address, but a separate
  *      copy of the owner. This means that if you change the name of the owner of the original house, the owner of
  *      the clone should not change. HINT: use the Person's clone method!
- * 
+ *
  */
+
+import { Person } from "./person";
+
+export class House {
+    public owner: Person;
+    public address: string;
+
+    constructor(owner: Person, address: string) {
+        this.owner = owner;
+        this.address = address;
+    }
+
+    toString(): string {
+        return (
+            "This house is owned by " +
+            this.owner.getFullName() +
+            " and is located at " +
+            this.address
+        );
+    }
+
+    buyFrom(person: Person): string {
+        if (person.age < 18) {
+            return (
+                "Sorry, " +
+                person.getFullName() +
+                " is too young to buy a house!"
+            );
+        } else {
+            this.owner = person;
+            return person.getFullName() + " bought the house!";
+        }
+    }
+
+    clone(): House {
+        return new House(this.owner.clone(), this.address);
+    }
+}
